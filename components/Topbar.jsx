@@ -5,9 +5,9 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { logoutUser } from "@/lib/auth";
 import { useSearch } from "@/lib/SearchContext";
 import { api } from "@/lib/api";
-import { Search, X, Filter } from "lucide-react";
+import { Search, X, Filter, Menu } from "lucide-react";
 
-export default function Topbar() {
+export default function Topbar({ toggleSidebar }) {
   const router = useRouter();
   const { searchQuery, setSearchQuery } = useSearch();
   const [isFocused, setIsFocused] = useState(false);
@@ -123,9 +123,18 @@ export default function Topbar() {
     <div className="bg-slate-800 shadow-md shadow-indigo-300/30">
       {/* Top section with Welcome and Logout */}
       <div className="flex justify-between items-center p-4 border-b border-slate-700">
-        <span className="text-green-200 text-3xl mx-auto font-semibold">
-          Welcome Admin
-        </span>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={toggleSidebar}
+            className="sm:hidden p-2 rounded-md bg-slate-700 text-gray-200"
+            aria-label="Toggle sidebar"
+          >
+            <Menu size={20} />
+          </button>
+          <span className="text-green-200 text-3xl font-semibold">
+            Welcome Admin
+          </span>
+        </div>
         <button
           onClick={() => {
             logoutUser();
