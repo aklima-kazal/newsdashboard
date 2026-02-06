@@ -10,6 +10,7 @@ import { IoNewspaperOutline } from "react-icons/io5";
 import { MdOutlineCategory } from "react-icons/md";
 import { FiSettings } from "react-icons/fi";
 import { BsCaretDown, BsCaretUp } from "react-icons/bs";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const menu = [
   {
@@ -49,7 +50,12 @@ const menu = [
   },
 ];
 
-export default function Sidebar({ mobileOpen = false, onClose = () => {} }) {
+export default function Sidebar({
+  mobileOpen = false,
+  onClose = () => {},
+  collapsed = false,
+  onCollapsedChange = () => {},
+}) {
   const pathname = usePathname();
   const [openMenu, setOpenMenu] = useState(null);
 
@@ -91,13 +97,22 @@ export default function Sidebar({ mobileOpen = false, onClose = () => {} }) {
       />
 
       <div
-        className={`z-50 transform top-0 left-0 w-64 bg-darkbg border-r border-borderdark p-4 fixed h-full transition-transform ${mobileOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0 lg:static lg:inset-auto lg:block`}
+        className={`z-50 transform top-0 left-0 ${collapsed ? "w-16" : "w-64"} sidebar-transition bg-darkbg border-r border-borderdark p-4 fixed h-full lg:relative lg:translate-x-0 ${mobileOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0 lg:static lg:inset-auto lg:block`}
       >
         <div className="mb-8 mt-2 flex gap-x-2 shadow-blue-100 shadow-lg/20 items-center rounded-md">
-          <SiPhpmyadmin size={40} className="text-green-300 " />
-          <h1 className="text-xl font-semibold text-white font-sans">
-            News Admin
-          </h1>
+          <SiPhpmyadmin size={40} className="text-green-300 shrink-0" />
+          {!collapsed && (
+            <h1 className="text-xl font-semibold text-white font-sans whitespace-nowrap">
+              News Admin
+            </h1>
+          )}
+          <button
+            onClick={() => onCollapsedChange(!collapsed)}
+            title={collapsed ? "Expand" : "Collapse"}
+            className="ml-auto hidden lg:flex items-center justify-center p-1 rounded hover:bg-slate-700 shrink-0"
+          >
+            {collapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
+          </button>
         </div>
         <nav className="space-y-2">
           {menu.map((item) => (
@@ -105,32 +120,40 @@ export default function Sidebar({ mobileOpen = false, onClose = () => {} }) {
               {item.href ? (
                 <Link
                   href={item.href}
-                  className={`flex items-center gap-2 text-lg font-medium px-3 py-2 rounded ${isItemActive(item) ? "bg-violet-300 text-black" : "text-blue-300 hover:bg-slate-700 hover:text-white"}`}
+                  title={collapsed ? item.label : ""}
+                  className={`flex items-center gap-2 text-lg font-medium px-3 py-2 rounded transition-colors ${isItemActive(item) ? "bg-violet-300 text-black" : "text-blue-300 hover:bg-slate-700 hover:text-white"}`}
                   aria-current={isItemActive(item) ? "page" : undefined}
                 >
-                  {item.icon} {item.label}
+                  {item.icon} {!collapsed && item.label}
                 </Link>
               ) : (
                 <button
                   onClick={() =>
                     setOpenMenu(openMenu === item.label ? null : item.label)
                   }
-                  className={`w-full flex justify-between items-center px-3 py-2 rounded ${isItemActive(item) ? "bg-violet-300 text-black" : "text-blue-300 hover:bg-slate-700 hover:text-white"}`}
+                  title={collapsed ? item.label : ""}
+                  className={`w-full flex justify-between items-center px-3 py-2 rounded transition-colors ${isItemActive(item) ? "bg-violet-300 text-black" : "text-blue-300 hover:bg-slate-700 hover:text-white"}`}
                 >
                   <span
                     className={`flex items-center gap-x-2 cursor-pointer font-medium text-lg`}
                   >
-                    {item.icon} {item.label}
+                    {item.icon} {!collapsed && item.label}
                   </span>
-                  <span className="flex items-center gap-x-2">
-                    {openMenu === item.label ? <BsCaretUp /> : <BsCaretDown />}
-                  </span>
+                  {!collapsed && (
+                    <span className="flex items-center gap-x-2">
+                      {openMenu === item.label ? (
+                        <BsCaretUp />
+                      ) : (
+                        <BsCaretDown />
+                      )}
+                    </span>
+                  )}
                 </button>
               )}
 
               {/* Submenu */}
-              {item.children && openMenu === item.label && (
-                <div className="ml-6 mt-1 space-y-1">
+              {item.children && openMenu === item.label && !collapsed && (
+                <div className="ml-6 mt-1 space-y-1 animate-slide-down">
                   {item.children.map((sub) => {
                     const subActive =
                       pathname === sub.href || pathname.startsWith(sub.href);
@@ -138,7 +161,7 @@ export default function Sidebar({ mobileOpen = false, onClose = () => {} }) {
                       <Link
                         key={sub.label}
                         href={sub.href}
-                        className={`block px-3 py-2 rounded text-sm font-medium ${subActive ? "bg-slate-700 text-white" : "text-emerald-100 hover:text-white hover:bg-gray-800"}`}
+                        className={`block px-3 py-2 rounded text-sm font-medium transition-colors ${subActive ? "bg-slate-700 text-white" : "text-emerald-100 hover:text-white hover:bg-gray-800"}`}
                         aria-current={subActive ? "page" : undefined}
                       >
                         {sub.label}

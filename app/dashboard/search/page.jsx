@@ -128,9 +128,9 @@ export default function SearchResultsPage() {
   return (
     <div>
       <Toaster position="top-right" />
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white mb-2">Search Results</h1>
-        <p className="text-gray-400">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">Search Results</h1>
+        <p className="text-gray-400 text-sm sm:text-base">
           Found <span className="font-semibold text-cyan-400">{totalResults}</span> result
           {totalResults !== 1 ? "s" : ""} for{" "}
           <span className="font-semibold text-cyan-300">"{searchQuery}"</span>
@@ -138,22 +138,22 @@ export default function SearchResultsPage() {
       </div>
 
       {totalResults === 0 ? (
-        <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-8 text-center">
-          <p className="text-gray-400 text-lg mb-2">No results found</p>
+        <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6 sm:p-8 text-center">
+          <p className="text-gray-400 text-base sm:text-lg mb-2">No results found</p>
           <p className="text-gray-500 text-sm">
             Try a different search term or check the spelling
           </p>
         </div>
       ) : (
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           {/* News Results */}
           {results.news.length > 0 && (
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <h2 className="text-xl font-semibold text-rose-400">
+                <h2 className="text-lg sm:text-xl font-semibold text-rose-400">
                   📰 News
                 </h2>
-                <span className="text-sm bg-rose-900/20 text-rose-300 px-2 py-1 rounded">
+                <span className="text-xs sm:text-sm bg-rose-900/20 text-rose-300 px-2 py-1 rounded">
                   {results.news.length}
                 </span>
               </div>
@@ -161,26 +161,26 @@ export default function SearchResultsPage() {
                 {results.news.map((item) => (
                   <div
                     key={item.id}
-                    className="flex items-center justify-between py-4 px-4 border-b border-slate-700 last:border-none hover:bg-slate-800/50 transition-colors group"
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-3 px-3 sm:py-4 sm:px-4 border-b border-slate-700 last:border-none hover:bg-slate-800/50 transition-colors group gap-2 sm:gap-3"
                   >
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-white font-medium group-hover:text-rose-300 transition-colors truncate">
+                      <h3 className="text-white font-medium group-hover:text-rose-300 transition-colors truncate text-sm sm:text-base">
                         {item.title}
                       </h3>
                       {item.content && (
-                        <p className="text-gray-400 text-sm truncate mt-1">
+                        <p className="text-gray-400 text-xs sm:text-sm truncate mt-1 hidden sm:block">
                           {item.content.substring(0, 60)}...
                         </p>
                       )}
                     </div>
-                    <div className="flex items-center gap-3 ml-4">
-                      <span className="text-xs bg-slate-700 text-gray-300 px-2 py-1 rounded whitespace-nowrap">
+                    <div className="flex items-center gap-2 sm:gap-3 justify-between sm:justify-end shrink-0">
+                      <span className="text-xs sm:text-sm bg-slate-700 text-gray-300 px-2 py-1 rounded whitespace-nowrap">
                         {item.status}
                       </span>
                       <button
                         disabled={deletingId === item.id}
                         onClick={() => handleDeleteNews(item.id, item.title)}
-                        className="p-2 rounded hover:bg-red-900/30 text-gray-400 hover:text-red-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="p-2 rounded hover:bg-red-900/30 text-gray-400 hover:text-red-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
                         title="Delete news"
                       >
                         {deletingId === item.id ? (
@@ -200,10 +200,10 @@ export default function SearchResultsPage() {
           {results.categories.length > 0 && (
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <h2 className="text-xl font-semibold text-pink-300">
+                <h2 className="text-lg sm:text-xl font-semibold text-pink-300">
                   📁 Categories
                 </h2>
-                <span className="text-sm bg-pink-900/20 text-pink-300 px-2 py-1 rounded">
+                <span className="text-xs sm:text-sm bg-pink-900/20 text-pink-300 px-2 py-1 rounded">
                   {results.categories.length}
                 </span>
               </div>
@@ -211,15 +211,15 @@ export default function SearchResultsPage() {
                 {results.categories.map((cat) => (
                   <div
                     key={cat.id}
-                    className="flex items-center justify-between py-4 px-4 border-b border-slate-700 last:border-none hover:bg-slate-800/50 transition-colors group"
+                    className="flex items-center justify-between py-3 px-3 sm:py-4 sm:px-4 border-b border-slate-700 last:border-none hover:bg-slate-800/50 transition-colors group gap-2 sm:gap-3"
                   >
-                    <h3 className="text-white font-medium group-hover:text-pink-300 transition-colors">
+                    <h3 className="text-white font-medium group-hover:text-pink-300 transition-colors truncate text-sm sm:text-base flex-1">
                       {cat.name}
                     </h3>
                     <button
                       disabled={deletingId === cat.id}
                       onClick={() => handleDeleteCategory(cat.id, cat.name)}
-                      className="p-2 rounded hover:bg-red-900/30 text-gray-400 hover:text-red-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="p-2 rounded hover:bg-red-900/30 text-gray-400 hover:text-red-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
                       title="Delete category"
                     >
                       {deletingId === cat.id ? (

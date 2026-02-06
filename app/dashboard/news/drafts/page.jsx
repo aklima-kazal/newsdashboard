@@ -152,12 +152,12 @@ export default function DraftsPage() {
       <Toaster position="top-right" />
 
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3">
         <h1 className="text-2xl text-yellow-400 font-semibold">Draft News</h1>
         {!showForm && (
           <button
             onClick={() => setShowForm(true)}
-            className="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg transition-colors font-medium"
+            className="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg transition-colors font-medium w-full sm:w-auto"
           >
             + New Draft
           </button>
@@ -200,7 +200,7 @@ export default function DraftsPage() {
                   setFormData({ ...formData, title: e.target.value })
                 }
                 placeholder="News title"
-                className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 transition-colors"
+                className="w-full px-3 py-2.5 sm:py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 transition-colors text-base"
               />
             </div>
 
@@ -215,7 +215,7 @@ export default function DraftsPage() {
                 }
                 placeholder="Write your news content here..."
                 rows={5}
-                className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 transition-colors resize-none"
+                className="w-full px-3 py-2.5 sm:py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 transition-colors resize-none text-base"
               />
             </div>
 
@@ -228,7 +228,7 @@ export default function DraftsPage() {
                 onChange={(e) =>
                   setFormData({ ...formData, category: e.target.value })
                 }
-                className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-yellow-500 transition-colors"
+                className="w-full px-3 py-2.5 sm:py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-yellow-500 transition-colors text-base"
               >
                 <option value="">Select a category</option>
                 {categories.map((cat) => (
@@ -239,11 +239,11 @@ export default function DraftsPage() {
               </select>
             </div>
 
-            <div className="flex gap-3 pt-4">
+            <div className="flex flex-col sm:flex-row gap-3 pt-4">
               <button
                 onClick={handleSave}
                 disabled={savingId !== null}
-                className="flex-1 px-4 py-2 bg-yellow-600 hover:bg-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-colors font-medium flex items-center justify-center gap-2"
+                className="flex-1 px-4 py-2.5 sm:py-2 bg-yellow-600 hover:bg-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-colors font-medium flex items-center justify-center gap-2"
               >
                 {savingId !== null ? (
                   <>
@@ -258,7 +258,7 @@ export default function DraftsPage() {
               <button
                 onClick={resetForm}
                 disabled={savingId !== null}
-                className="px-4 py-2 bg-slate-700 hover:bg-slate-600 disabled:opacity-50 text-gray-300 rounded-lg transition-colors font-medium"
+                className="px-4 py-2.5 sm:py-2 bg-slate-700 hover:bg-slate-600 disabled:opacity-50 text-gray-300 rounded-lg transition-colors font-medium"
               >
                 Cancel
               </button>
@@ -288,19 +288,19 @@ export default function DraftsPage() {
             {drafts.map((draft) => (
               <div
                 key={draft.id}
-                className="py-4 px-4 hover:bg-slate-800/30 transition-colors group"
+                className="py-3 px-3 sm:py-4 sm:px-4 hover:bg-slate-800/30 transition-colors group"
               >
-                <div className="flex items-start justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-white font-medium group-hover:text-yellow-300 transition-colors truncate">
+                    <h3 className="text-white font-medium group-hover:text-yellow-300 transition-colors truncate text-sm sm:text-base">
                       {draft.title}
                     </h3>
                     {draft.content && (
-                      <p className="text-gray-400 text-sm mt-1 line-clamp-2">
+                      <p className="text-gray-400 text-xs sm:text-sm mt-1 line-clamp-2">
                         {draft.content}
                       </p>
                     )}
-                    <div className="flex items-center gap-2 mt-2">
+                    <div className="flex items-center gap-2 mt-2 flex-wrap">
                       {draft.category && (
                         <span className="text-xs bg-slate-700 text-gray-300 px-2 py-1 rounded">
                           {draft.category}
@@ -315,11 +315,11 @@ export default function DraftsPage() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 ml-4">
+                  <div className="flex items-center gap-2 shrink-0">
                     <button
                       onClick={() => handlePublish(draft.id, draft.title)}
                       disabled={savingId === draft.id}
-                      className="px-3 py-1 text-sm bg-green-900/30 hover:bg-green-900/50 text-green-400 disabled:opacity-50 disabled:cursor-not-allowed rounded transition-colors font-medium whitespace-nowrap"
+                      className="px-2 sm:px-3 py-1 text-xs sm:text-sm bg-green-900/30 hover:bg-green-900/50 text-green-400 disabled:opacity-50 disabled:cursor-not-allowed rounded transition-colors font-medium whitespace-nowrap"
                       title="Publish draft"
                     >
                       {savingId === draft.id ? "⚙️" : "Publish"}
@@ -327,7 +327,7 @@ export default function DraftsPage() {
                     <button
                       onClick={() => handleEdit(draft)}
                       disabled={savingId === draft.id}
-                      className="p-2 rounded hover:bg-blue-900/30 text-gray-400 hover:text-blue-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="p-1.5 sm:p-2 rounded hover:bg-blue-900/30 text-gray-400 hover:text-blue-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
                       title="Edit draft"
                     >
                       <Edit2 size={18} />
@@ -335,7 +335,7 @@ export default function DraftsPage() {
                     <button
                       onClick={() => handleDelete(draft.id, draft.title)}
                       disabled={deletingId === draft.id}
-                      className="p-2 rounded hover:bg-red-900/30 text-gray-400 hover:text-red-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="p-1.5 sm:p-2 rounded hover:bg-red-900/30 text-gray-400 hover:text-red-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
                       title="Delete draft"
                     >
                       {deletingId === draft.id ? (

@@ -186,60 +186,60 @@ export default function AnalyticsPage() {
 
   return (
     <>
-      <div className="flex items-start justify-between gap-4 mb-6">
-        <h1 className="text-3xl font-bold text-[#ef93c4]">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-[#ef93c4]">
           Analytics Dashboard
         </h1>
 
-        <div className="flex items-center gap-2">
-          <div className="hidden sm:flex items-center gap-2 bg-slate-800 p-1 rounded">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full sm:w-auto">
+          <div className="flex items-center gap-1 sm:gap-2 bg-slate-800 p-1 rounded text-xs sm:text-sm w-full sm:w-auto">
             <button
               onClick={() => setRange(7)}
-              className={`cursor-pointer px-3 py-1 rounded ${range === 7 ? "bg-amber-600 text-black" : "text-gray-300 hover:bg-slate-700"}`}
+              className={`cursor-pointer px-2 sm:px-3 py-1 rounded whitespace-nowrap flex-1 sm:flex-none ${range === 7 ? "bg-amber-600 text-black" : "text-gray-300 hover:bg-slate-700"}`}
             >
               7d
             </button>
             <button
               onClick={() => setRange(30)}
-              className={`cursor-pointer px-3 py-1 rounded ${range === 30 ? "bg-amber-600 text-black" : "text-gray-300 hover:bg-slate-700"}`}
+              className={`cursor-pointer px-2 sm:px-3 py-1 rounded whitespace-nowrap flex-1 sm:flex-none ${range === 30 ? "bg-amber-600 text-black" : "text-gray-300 hover:bg-slate-700"}`}
             >
               30d
             </button>
             <button
               onClick={() => setRange(90)}
-              className={`cursor-pointer px-3 py-1 rounded ${range === 90 ? "bg-amber-600 text-black" : "text-gray-300 hover:bg-slate-700"}`}
+              className={`cursor-pointer px-2 sm:px-3 py-1 rounded whitespace-nowrap flex-1 sm:flex-none ${range === 90 ? "bg-amber-600 text-black" : "text-gray-300 hover:bg-slate-700"}`}
             >
               90d
             </button>
           </div>
 
-          <div className="hidden sm:flex items-center gap-2 ml-2">
+          <div className="flex items-center gap-2 flex-wrap text-xs sm:text-sm w-full sm:w-auto">
             <button
               onClick={setThisMonth}
-              className="cursor-pointer px-2 py-1 rounded text-gray-300 hover:bg-slate-700"
+              className="cursor-pointer px-2 py-1 rounded text-gray-300 hover:bg-slate-700 whitespace-nowrap"
             >
               This Month
             </button>
             <button
               onClick={setLastMonth}
-              className="cursor-pointer px-2 py-1 rounded text-gray-300 hover:bg-slate-700"
+              className="cursor-pointer px-2 py-1 rounded text-gray-300 hover:bg-slate-700 whitespace-nowrap"
             >
               Last Month
             </button>
           </div>
 
-          <div className="hidden sm:flex items-center gap-2 ml-2">
+          <div className="hidden sm:flex items-center gap-2 flex-wrap text-xs w-full sm:w-auto">
             <button
               onClick={() => exportCSV(viewsData, `views_last_${range}d`)}
-              className="cursor-pointer px-2 py-1 rounded bg-slate-700 hover:bg-slate-600 text-gray-200"
+              className="cursor-pointer px-2 py-1 rounded bg-slate-700 hover:bg-slate-600 text-gray-200 whitespace-nowrap"
             >
-              Export Views CSV
+              Views CSV
             </button>
             <button
               onClick={() => exportCSV(categoryData, `categories`)}
-              className="cursor-pointer px-2 py-1 rounded bg-slate-700 hover:bg-slate-600 text-gray-200"
+              className="cursor-pointer px-2 py-1 rounded bg-slate-700 hover:bg-slate-600 text-gray-200 whitespace-nowrap"
             >
-              Export Categories CSV
+              Categories CSV
             </button>
             <button
               onClick={() =>
@@ -252,64 +252,64 @@ export default function AnalyticsPage() {
                   `analytics_last_${range}d`,
                 )
               }
-              className="cursor-pointer px-2 py-1 rounded bg-slate-700 hover:bg-slate-600 text-gray-200"
+              className="cursor-pointer px-2 py-1 rounded bg-slate-700 hover:bg-slate-600 text-gray-200 whitespace-nowrap"
             >
-              Export JSON
+              JSON
             </button>
           </div>
 
           <button
             onClick={() => refresh(range)}
-            className="cursor-pointer px-3 py-1 bg-slate-700 hover:bg-slate-600 text-gray-200 rounded"
+            className="cursor-pointer px-3 py-1 bg-slate-700 hover:bg-slate-600 text-gray-200 rounded text-xs sm:text-sm whitespace-nowrap w-full sm:w-auto"
             aria-label="Refresh analytics"
           >
-            Refresh
+            🔄 Refresh
           </button>
         </div>
       </div>
 
       {searchQuery && (
-        <div className="mb-6 p-4 bg-cyan-900/20 border border-cyan-700 text-cyan-300 rounded-lg">
+        <div className="mb-6 p-3 sm:p-4 bg-cyan-900/20 border border-cyan-700 text-cyan-300 rounded-lg text-xs sm:text-sm">
           Search: <span className="font-semibold">"{searchQuery}"</span>
         </div>
       )}
 
       {loading ? (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
             <div className="h-20 bg-slate-800 animate-pulse rounded-lg" />
             <div className="h-20 bg-slate-800 animate-pulse rounded-lg" />
             <div className="h-20 bg-slate-800 animate-pulse rounded-lg" />
           </div>
-          <div className="h-80 bg-slate-800 animate-pulse rounded-lg mb-6" />
+          <div className="h-64 sm:h-80 bg-slate-800 animate-pulse rounded-lg mb-6" />
           <div className="h-40 bg-slate-800 animate-pulse rounded-lg" />
         </>
       ) : error ? (
-        <div className="bg-red-900/20 border border-red-700 text-red-300 p-4 rounded-lg">
+        <div className="bg-red-900/20 border border-red-700 text-red-300 p-4 rounded-lg text-sm">
           {error}
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
             <div className="bg-slate-800 p-4 rounded-lg">
-              <p className="text-sm text-gray-400">Total News</p>
-              <p className="text-2xl font-semibold text-white">{totalNews}</p>
+              <p className="text-xs sm:text-sm text-gray-400">Total News</p>
+              <p className="text-xl sm:text-2xl font-semibold text-white mt-2">{totalNews}</p>
             </div>
             <div className="bg-slate-800 p-4 rounded-lg">
-              <p className="text-sm text-gray-400">Published</p>
-              <p className="text-2xl font-semibold text-green-400">
+              <p className="text-xs sm:text-sm text-gray-400">Published</p>
+              <p className="text-xl sm:text-2xl font-semibold text-green-400 mt-2">
                 {publishedCount}
               </p>
             </div>
             <div className="bg-slate-800 p-4 rounded-lg">
-              <p className="text-sm text-gray-400">Drafts</p>
-              <p className="text-2xl font-semibold text-yellow-400">
+              <p className="text-xs sm:text-sm text-gray-400">Drafts</p>
+              <p className="text-xl sm:text-2xl font-semibold text-yellow-400 mt-2">
                 {draftCount}
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             <ViewsLineChart
               data={viewsData}
               title={`Views — last ${range} days`}
@@ -317,7 +317,7 @@ export default function AnalyticsPage() {
             <CategoryBarChart data={categoryData} />
           </div>
 
-          <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
             <TrafficPieChart data={trafficData} title="Status Distribution" />
           </div>
         </>

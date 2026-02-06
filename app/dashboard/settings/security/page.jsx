@@ -141,39 +141,39 @@ export default function SecuritySettings() {
   return (
     <>
       <Toaster position="top-right" />
-      <div className="max-w-2xl">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">
+      <div className="w-full sm:max-w-2xl">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
             🔒 Security Settings
           </h1>
-          <p className="text-gray-400">
+          <p className="text-gray-400 text-sm sm:text-base">
             Manage your password, authentication, and security preferences
           </p>
         </div>
 
         {/* Change Password Card */}
         <div className="card mb-6 space-y-6">
-          <div className="flex items-center gap-3 pb-4 border-b border-slate-700">
-            <Lock className="text-cyan-400" size={24} />
-            <div>
-              <h2 className="text-xl font-semibold text-white">
+          <div className="flex items-start sm:items-center gap-3 pb-4 border-b border-slate-700">
+            <Lock className="text-cyan-400 shrink-0" size={24} />
+            <div className="flex-1 min-w-0">
+              <h2 className="text-lg sm:text-xl font-semibold text-white">
                 Change Password
               </h2>
-              <p className="text-gray-400 text-sm">
+              <p className="text-gray-400 text-xs sm:text-sm">
                 Update your account password regularly
               </p>
             </div>
           </div>
 
           {!isChangingPassword ? (
-            <div className="flex items-center justify-between p-4 bg-green-900/20 border border-green-700 rounded-lg">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-3 sm:p-4 bg-green-900/20 border border-green-700 rounded-lg">
               <div className="flex items-center gap-3">
-                <CheckCircle className="text-green-400" size={20} />
-                <span className="text-green-300">Password is secure</span>
+                <CheckCircle className="text-green-400 shrink-0" size={20} />
+                <span className="text-green-300 text-sm sm:text-base">Password is secure</span>
               </div>
               <button
                 onClick={() => setIsChangingPassword(true)}
-                className="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg font-medium transition-all text-sm"
+                className="w-full sm:w-auto px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg font-medium transition-all text-sm"
               >
                 Change Password
               </button>
@@ -193,12 +193,12 @@ export default function SecuritySettings() {
                     value={passwordForm.currentPassword}
                     onChange={handlePasswordChange}
                     placeholder="Enter your current password"
-                    className="w-full px-4 py-2 pr-10 bg-slate-700 text-white rounded-lg border border-slate-600 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20"
+                    className="w-full px-3 py-2.5 sm:py-2 pr-10 bg-slate-700 text-white rounded-lg border border-slate-600 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 text-base sm:text-sm"
                   />
                   <button
                     type="button"
                     onClick={() => handleTogglePasswordVisibility("current")}
-                    className="absolute right-3 top-2.5 text-gray-400 hover:text-white"
+                    className="absolute right-3 top-3 sm:top-2.5 text-gray-400 hover:text-white shrink-0"
                   >
                     {showPasswords.current ? (
                       <EyeOff size={18} />
@@ -222,12 +222,12 @@ export default function SecuritySettings() {
                     value={passwordForm.newPassword}
                     onChange={handlePasswordChange}
                     placeholder="Enter your new password"
-                    className="w-full px-4 py-2 pr-10 bg-slate-700 text-white rounded-lg border border-slate-600 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20"
+                    className="w-full px-3 py-2.5 sm:py-2 pr-10 bg-slate-700 text-white rounded-lg border border-slate-600 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 text-base sm:text-sm"
                   />
                   <button
                     type="button"
                     onClick={() => handleTogglePasswordVisibility("new")}
-                    className="absolute right-3 top-2.5 text-gray-400 hover:text-white"
+                    className="absolute right-3 top-3 sm:top-2.5 text-gray-400 hover:text-white shrink-0"
                   >
                     {showPasswords.new ? (
                       <EyeOff size={18} />
@@ -275,12 +275,12 @@ export default function SecuritySettings() {
                     value={passwordForm.confirmPassword}
                     onChange={handlePasswordChange}
                     placeholder="Confirm your new password"
-                    className="w-full px-4 py-2 pr-10 bg-slate-700 text-white rounded-lg border border-slate-600 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20"
+                    className="w-full px-3 py-2.5 sm:py-2 pr-10 bg-slate-700 text-white rounded-lg border border-slate-600 outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 text-base sm:text-sm"
                   />
                   <button
                     type="button"
                     onClick={() => handleTogglePasswordVisibility("confirm")}
-                    className="absolute right-3 top-2.5 text-gray-400 hover:text-white"
+                    className="absolute right-3 top-3 sm:top-2.5 text-gray-400 hover:text-white shrink-0"
                   >
                     {showPasswords.confirm ? (
                       <EyeOff size={18} />
@@ -298,11 +298,11 @@ export default function SecuritySettings() {
               </div>
 
               {/* Buttons */}
-              <div className="flex gap-3 pt-4">
+              <div className="flex flex-col sm:flex-row gap-3 pt-4">
                 <button
                   onClick={handleUpdatePassword}
                   disabled={isLoading}
-                  className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="flex-1 px-6 py-2.5 sm:py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-base sm:text-sm"
                 >
                   {isLoading ? (
                     <>
@@ -324,7 +324,7 @@ export default function SecuritySettings() {
                     setPasswordStrength(0);
                   }}
                   disabled={isLoading}
-                  className="px-6 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 sm:flex-none px-6 py-2.5 sm:py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed text-base sm:text-sm"
                 >
                   ✕ Cancel
                 </button>
@@ -335,26 +335,26 @@ export default function SecuritySettings() {
 
         {/* Two-Factor Authentication Card */}
         <div className="card mb-6 space-y-4">
-          <div className="flex items-center justify-between pb-4 border-b border-slate-700">
-            <div className="flex items-center gap-3">
-              <Shield className="text-amber-400" size={24} />
-              <div>
-                <h2 className="text-xl font-semibold text-white">
+          <div className="flex items-start sm:items-center justify-between pb-4 border-b border-slate-700 gap-3">
+            <div className="flex items-start sm:items-center gap-3 flex-1 min-w-0">
+              <Shield className="text-amber-400 shrink-0" size={24} />
+              <div className="flex-1 min-w-0">
+                <h2 className="text-lg sm:text-xl font-semibold text-white">
                   Two-Factor Authentication
                 </h2>
-                <p className="text-gray-400 text-sm">
+                <p className="text-gray-400 text-xs sm:text-sm">
                   Add an extra layer of security
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="flex items-center justify-between p-4 bg-slate-700/30 rounded-lg">
-            <div>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-3 sm:p-4 bg-slate-700/30 rounded-lg">
+            <div className="flex-1">
               <p className="text-white font-medium">
                 {twoFactorEnabled ? "✓ Enabled" : "Disabled"}
               </p>
-              <p className="text-gray-400 text-sm">
+              <p className="text-gray-400 text-xs sm:text-sm">
                 {twoFactorEnabled
                   ? "Receive codes on your registered device"
                   : "Get additional security with 2FA"}
@@ -363,7 +363,7 @@ export default function SecuritySettings() {
             <button
               onClick={handleToggle2FA}
               disabled={isLoading}
-              className={`relative inline-flex h-8 w-14 items-center rounded-full transition-all ${
+              className={`relative inline-flex shrink-0 h-8 w-14 items-center rounded-full transition-all ${
                 twoFactorEnabled ? "bg-green-600" : "bg-slate-600"
               } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
             >
@@ -376,7 +376,7 @@ export default function SecuritySettings() {
           </div>
 
           {twoFactorEnabled && (
-            <div className="p-4 bg-green-900/20 border border-green-700 rounded-lg text-sm text-green-300 flex items-start gap-3">
+            <div className="p-3 sm:p-4 bg-green-900/20 border border-green-700 rounded-lg text-xs sm:text-sm text-green-300 flex items-start gap-3">
               <CheckCircle size={18} className="shrink-0 mt-0.5" />
               <span>
                 2FA is now active on your account. You'll need to enter a code
@@ -390,7 +390,7 @@ export default function SecuritySettings() {
         <div className="p-4 bg-slate-800/50 border border-slate-700 rounded-lg space-y-3">
           <div className="flex items-start gap-3">
             <AlertCircle className="text-cyan-400 shrink-0 mt-1" size={18} />
-            <div className="text-sm text-gray-400">
+            <div className="text-xs sm:text-sm text-gray-400">
               <p className="font-semibold text-white mb-2">🔐 Security Tips:</p>
               <ul className="space-y-1 list-disc list-inside">
                 <li>

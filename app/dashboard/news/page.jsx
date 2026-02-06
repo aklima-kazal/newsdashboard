@@ -95,30 +95,30 @@ export default function NewsPage() {
             {filteredNews.map((item) => (
               <div
                 key={item.id}
-                className="flex items-center justify-between py-4 px-4 hover:bg-slate-800/30 transition-colors group"
+                className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-3 px-3 sm:py-4 sm:px-4 hover:bg-slate-800/30 transition-colors group gap-2 sm:gap-3"
                 onClick={async (e) => {
                   // prevent triggering when clicking the delete button
-                  if (e.target.closest('button')) return;
+                  if (e.target.closest("button")) return;
                   try {
                     await api.incrementNewsView(item.id);
                   } catch (err) {
-                    console.error('View increment error', err);
+                    console.error("View increment error", err);
                   }
                 }}
                 title="Click to record a view"
               >
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-white font-medium group-hover:text-rose-300 transition-colors truncate">
+                  <h3 className="text-white font-medium group-hover:text-rose-300 transition-colors truncate text-sm sm:text-base">
                     {item.title}
                   </h3>
                   {item.content && (
-                    <p className="text-gray-400 text-xs mt-1 truncate">
+                    <p className="text-gray-400 text-xs mt-1 truncate hidden sm:block">
                       {item.content.substring(0, 50)}...
                     </p>
                   )}
                 </div>
 
-                <div className="flex items-center gap-3 ml-4">
+                <div className="flex items-center gap-2 sm:gap-3 justify-between sm:justify-end">
                   <span
                     className={`text-xs font-semibold px-2.5 py-1 rounded whitespace-nowrap ${
                       item.status === "published"
@@ -132,7 +132,7 @@ export default function NewsPage() {
                   <button
                     disabled={deletingId === item.id}
                     onClick={() => handleDelete(item.id, item.title)}
-                    className="p-2 rounded hover:bg-red-900/30 text-gray-400 hover:text-red-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="p-2 rounded hover:bg-red-900/30 text-gray-400 hover:text-red-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
                     title="Delete news"
                     aria-label="Delete news"
                   >
