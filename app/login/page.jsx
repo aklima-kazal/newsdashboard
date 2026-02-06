@@ -34,13 +34,15 @@ export default function LoginPage() {
         const success = await loginUser(values.email, values.password);
 
         if (success) {
-          toast.success("Login successful 🚀");
+          toast.success("✨ Login successful! Welcome back.", { duration: 2000 });
           router.push("/dashboard");
         } else {
-          toast.error("Invalid email or password");
+          toast.error("❌ Login failed. Please check your credentials and try again.", { duration: 3000 });
         }
       } catch (error) {
-        toast.error("Something went wrong!");
+        const message = error.message || "Something went wrong. Please try again.";
+        toast.error(message, { duration: 3000 });
+        console.error("Login error:", error);
       } finally {
         setSubmitting(false);
       }

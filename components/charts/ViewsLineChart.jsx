@@ -9,7 +9,7 @@ import {
   CartesianGrid,
 } from "recharts";
 
-const data = [
+const defaultData = [
   { day: "Mon", views: 1200 },
   { day: "Tue", views: 2100 },
   { day: "Wed", views: 1800 },
@@ -19,10 +19,10 @@ const data = [
   { day: "Sun", views: 3500 },
 ];
 
-export default function ViewsLineChart() {
+export default function ViewsLineChart({ data = defaultData, title = "Daily Views" }) {
   return (
     <div className="bg-slate-800 p-8 rounded-xl h-80  inset-shadow-sm inset-shadow-slate-500/30">
-      <h3 className="mb-4 font-semibold text-lg text-amber-100">Daily Views</h3>
+      <h3 className="mb-4 font-semibold text-lg text-amber-100">{title}</h3>
 
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data}>
@@ -30,12 +30,7 @@ export default function ViewsLineChart() {
           <XAxis dataKey="day" stroke="#cbd5f5" />
           <YAxis stroke="#cbd5f5" />
           <Tooltip />
-          <Line
-            type="monotone"
-            dataKey="views"
-            stroke="#38bdf8"
-            strokeWidth={3}
-          />
+          <Line type="monotone" dataKey="views" stroke="#38bdf8" strokeWidth={3} />
         </LineChart>
       </ResponsiveContainer>
     </div>

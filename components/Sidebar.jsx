@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SiPhpmyadmin } from "react-icons/si";
 import { MdOutlineDashboard } from "react-icons/md";
 import { IoMdAnalytics } from "react-icons/io";
@@ -53,6 +53,34 @@ export default function Sidebar() {
   const pathname = usePathname();
   const [openMenu, setOpenMenu] = useState(null);
 
+  // Open parent menu if current pathname matches one of its children
+  useEffect(() => {
+    for (const item of menu) {
+      if (item.children) {
+        const match = item.children.some(
+          (c) => pathname === c.href || pathname.startsWith(c.href),
+        );
+        if (match) {
+          setOpenMenu(item.label);
+          return;
+        }
+      }
+      if (item.href && pathname === item.href) {
+        setOpenMenu(null);
+        return;
+      }
+    }
+  }, [pathname]);
+
+  const isItemActive = (item) => {
+    if (item.href) return pathname === item.href;
+    if (item.children)
+      return item.children.some(
+        (c) => pathname === c.href || pathname.startsWith(c.href),
+      );
+    return false;
+  };
+
   return (
     <div className="w-64 min-h-screen bg-darkbg border-r border-borderdark p-4">
       <div className="mb-8 mt-2 flex gap-x-2 shadow-blue-100 shadow-lg/20 items-center rounded-md">
@@ -67,9 +95,8 @@ export default function Sidebar() {
             {item.href ? (
               <Link
                 href={item.href}
-                className={`sidebar-item text-lg font-medium ${
-                  pathname === item.href ? "sidebar-active text-violet-400" : ""
-                } gap-2 flex items-center text-blue-300 `}
+                className={`flex items-center gap-2 text-lg font-medium px-3 py-2 rounded ${isItemActive(item) ? "bg-violet-300 text-black" : "text-blue-300 hover:bg-slate-700 hover:text-white"}`}
+                aria-current={isItemActive(item) ? "page" : undefined}
               >
                 {item.icon} {item.label}
               </Link>
@@ -78,16 +105,14 @@ export default function Sidebar() {
                 onClick={() =>
                   setOpenMenu(openMenu === item.label ? null : item.label)
                 }
-                className="sidebar-item w-full flex justify-between items-center "
+                className={`w-full flex justify-between items-center px-3 py-2 rounded ${isItemActive(item) ? "bg-violet-300 text-black" : "text-blue-300 hover:bg-slate-700 hover:text-white"}`}
               >
                 <span
-                  className={`flex text-blue-300 gap-x-2 cursor-pointer font-medium text-lg sidebar-item ${openMenu === item.label ? "sidebar-active text-violet-400" : ""}`}
+                  className={`flex items-center gap-x-2 cursor-pointer font-medium text-lg`}
                 >
                   {item.icon} {item.label}
                 </span>
-                <span
-                  className={`flex text-blue-300 gap-x-2 items-center cursor-pointer sidebar-item  ${openMenu === item.label ? "sidebar-active text-violet-400" : ""}`}
-                >
+                <span className="flex items-center gap-x-2">
                   {openMenu === item.label ? <BsCaretUp /> : <BsCaretDown />}
                 </span>
               </button>
@@ -95,18 +120,21 @@ export default function Sidebar() {
 
             {/* Submenu */}
             {item.children && openMenu === item.label && (
-              <div className="ml-8 mt-1 space-y-1 animate-slide">
-                {item.children.map((sub) => (
-                  <Link
-                    key={sub.label}
-                    href={sub.href}
-                    className={`text-emerald-100 text-md font-semibold block px-3 py-2 rounded text-sm hover:text-white hover:bg-gray-800 ${
-                      pathname === sub.href ? "bg-gray-800 " : ""
-                    }`}
-                  >
-                    {sub.label}
-                  </Link>
-                ))}
+              <div className="ml-6 mt-1 space-y-1">
+                {item.children.map((sub) => {
+                  const subActive =
+                    pathname === sub.href || pathname.startsWith(sub.href);
+                  return (
+                    <Link
+                      key={sub.label}
+                      href={sub.href}
+                      className={`block px-3 py-2 rounded text-sm font-medium ${subActive ? "bg-slate-700 text-white" : "text-emerald-100 hover:text-white hover:bg-gray-800"}`}
+                      aria-current={subActive ? "page" : undefined}
+                    >
+                      {sub.label}
+                    </Link>
+                  );
+                })}
               </div>
             )}
           </div>
