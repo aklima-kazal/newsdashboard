@@ -9,7 +9,7 @@ import {
   CartesianGrid,
 } from "recharts";
 
-const defaultData = [
+const data = [
   { category: "Politics", news: 40 },
   { category: "Sports", news: 68 },
   { category: "Tech", news: 55 },
@@ -17,10 +17,10 @@ const defaultData = [
   { category: "Entertainment", news: 48 },
 ];
 
-export default function CategoryBarChart({ data = defaultData, title = "News by Category" }) {
+export default function CategoryBarChart() {
   return (
     <div className="bg-slate-800 p-8 font-normal text-lg rounded-xl h-80 inset-shadow-sm inset-shadow-slate-500/30">
-      <h3 className="mb-4 text-amber-100 font-semibold">{title}</h3>
+      <h3 className="mb-4 text-amber-100 font-semibold">News by Category</h3>
 
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data}>

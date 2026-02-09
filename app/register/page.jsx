@@ -33,12 +33,10 @@ export default function RegisterPage() {
         // 🔁 Replace with real API call
         await new Promise((res) => setTimeout(res, 1500));
 
-        toast.success("✨ Account created successfully! Redirecting to login...", { duration: 2000 });
+        toast.success("Account created successfully 🎉");
         router.push("/login");
       } catch (error) {
-        const message = "Registration failed. Please try again.";
-        toast.error(message, { duration: 3000 });
-        console.error("Registration error:", error);
+        toast.error("Registration failed");
       } finally {
         setSubmitting(false);
       }

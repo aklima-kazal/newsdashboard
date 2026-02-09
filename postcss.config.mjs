@@ -1,6 +1,8 @@
 const config = {
   plugins: {
-    "@tailwindcss/postcss": {},
+    "@tailwindcss/postcss": {
+      tailwindConfig: "./tailwind.config.js",
+    },
   },
 };
 
