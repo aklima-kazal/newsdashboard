@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/useAuth";
 import { useFormik } from "formik";
@@ -13,10 +13,12 @@ export default function LoginPage() {
   const { login, isLoggedIn, loading } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
 
-  // Redirect if already logged in
-  if (!loading && isLoggedIn) {
-    router.push("/dashboard");
-  }
+  // ✅ Fix: Only redirect inside useEffect to avoid Turbopack runtime crashes
+  useEffect(() => {
+    if (!loading && isLoggedIn) {
+      router.push("/dashboard");
+    }
+  }, [isLoggedIn, loading, router]);
 
   const formik = useFormik({
     initialValues: { email: "", password: "" },
@@ -28,6 +30,8 @@ export default function LoginPage() {
       const result = await login(values.email, values.password);
       if (result.success) {
         toast.success("Logged in successfully!");
+        // ✅ Refresh ensures middleware sees the new cookie before the redirect
+        router.refresh();
         router.push("/dashboard");
       } else {
         toast.error(result.error || "Login failed");
@@ -58,7 +62,7 @@ export default function LoginPage() {
           <input
             name="email"
             type="email"
-            className="p-2 rounded bg-slate-700 text-white"
+            className="p-2 rounded bg-slate-700 text-white outline-none focus:ring-2 focus:ring-cyan-400"
             onChange={formik.handleChange}
             value={formik.values.email}
           />
@@ -72,14 +76,14 @@ export default function LoginPage() {
           <input
             name="password"
             type={showPassword ? "text" : "password"}
-            className="p-2 rounded bg-slate-700 text-white"
+            className="p-2 rounded bg-slate-700 text-white outline-none focus:ring-2 focus:ring-cyan-400"
             onChange={formik.handleChange}
             value={formik.values.password}
           />
           <button
             type="button"
-            onClick={() => setShowPassword((prev) => !prev)}
-            className="absolute right-2 top-9 text-cyan-400"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-2 top-9 text-cyan-400 text-sm"
           >
             {showPassword ? "Hide" : "Show"}
           </button>
@@ -90,7 +94,7 @@ export default function LoginPage() {
 
         <button
           type="submit"
-          className="bg-cyan-400 text-slate-900 font-bold py-2 rounded hover:bg-cyan-500"
+          className="bg-cyan-400 text-slate-900 font-bold py-2 rounded mt-2 hover:bg-cyan-500 transition-colors"
         >
           Login
         </button>
