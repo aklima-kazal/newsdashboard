@@ -98,6 +98,13 @@ export default function LoginPage() {
         >
           Login
         </button>
+
+        <p className="text-cyan-400 text-center">
+          Don&apos;t have an account?{" "}
+          <a href="/register" className="text-cyan-500 hover:underline">
+            Register
+          </a>
+        </p>
       </form>
     </div>
   );
