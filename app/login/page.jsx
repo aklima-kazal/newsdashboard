@@ -1,85 +1,73 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 export default function LoginPage() {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+  const formik = useFormik({
+    initialValues: { email: "", password: "" },
+    validationSchema: Yup.object({
+      email: Yup.string().email("Invalid email").required("Required"),
+      password: Yup.string().required("Required"),
+    }),
+    onSubmit: async (values) => {
+      try {
+        const response = await fetch("http://localhost:4000/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(values),
+        });
 
-  // Form Submission Logic
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
+        const data = await response.json();
 
-    // Extracting values from form data
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get("email");
-    const password = formData.get("password");
-
-    try {
-      const result = await loginUser(email, password);
-
-      if (result.success) {
-        toast.success("Login Successful!");
-
-        // Use refresh() to update Server Components with the new auth cookie
-        router.refresh();
-        router.push("/dashboard");
-      } else {
-        toast.error(result.message || "Invalid credentials");
+        if (response.ok && data.token) {
+          // Save token so middleware/auth.js can see it
+          Cookies.set("token", data.token, { expires: 1, sameSite: "strict" });
+          toast.success("Login Successful!");
+          window.location.href = "/dashboard"; // Force refresh for session sync
+        } else {
+          toast.error(data.error || "Login failed");
+        }
+      } catch (err) {
+        toast.error("Is the backend running on Port 4000?");
       }
-    } catch (error) {
-      toast.error("Connection error. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    },
+  });
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
+    <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <form
-        onSubmit={handleSubmit}
-        className="p-8 border rounded-lg shadow-md w-full max-w-sm"
+        onSubmit={formik.handleSubmit}
+        className="p-8 bg-white rounded-lg shadow-md w-96"
       >
-        <h1 className="text-2xl font-bold mb-6">Login</h1>
-
-        <div className="mb-4">
-          <label className="block mb-1 text-sm font-medium">Email</label>
+        <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">
+          Admin Login
+        </h1>
+        <div className="space-y-4">
           <input
             name="email"
             type="email"
-            required
-            className="w-full px-3 py-2 border rounded-md"
-            placeholder="you@example.com"
+            placeholder="admin@news.com"
+            className="w-full p-2 border rounded outline-none focus:ring-2 focus:ring-blue-500"
+            {...formik.getFieldProps("email")}
           />
-        </div>
-
-        <div className="mb-6">
-          <label className="block mb-1 text-sm font-medium">Password</label>
           <input
             name="password"
             type="password"
-            required
-            className="w-full px-3 py-2 border rounded-md"
-            placeholder="••••••••"
+            placeholder="password123"
+            className="w-full p-2 border rounded outline-none focus:ring-2 focus:ring-blue-500"
+            {...formik.getFieldProps("password")}
           />
+          <button
+            type="submit"
+            disabled={formik.isSubmitting}
+            className="w-full bg-blue-600 text-white py-2 rounded font-bold hover:bg-blue-700 disabled:bg-gray-400"
+          >
+            {formik.isSubmitting ? "Verifying..." : "Sign In"}
+          </button>
         </div>
-
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 disabled:opacity-50"
-        >
-          {isLoading ? "Signing in..." : "Sign In"}
-        </button>
-        <span>
-          Don't have an account?{" "}
-          <a href="/register" className="text-blue-600 hover:underline">
-            Register here
-          </a>
-        </span>
       </form>
     </div>
   );

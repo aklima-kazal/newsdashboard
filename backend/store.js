@@ -1,19 +1,13 @@
 module.exports = {
-  users: [],
-  sessions: {},
-  news: [
+  users: [
     {
-      id: '1',
-      title: 'Welcome to News Dashboard',
-      content: 'This is the initial news item stored in the in-memory backend.',
-      category: null,
-      status: 'published',
-      views: 0,
-      viewsHistory: [],
-      createdAt: new Date().toISOString()
-    }
+      id: "u1",
+      email: "admin@news.com",
+      password: "password123",
+      name: "Admin",
+    }, //
   ],
-  categories: [
-    { id: 'c1', name: 'General' }
-  ]
+  sessions: {}, //
+  news: [],
+  categories: [{ id: "c1", name: "General" }],
 };

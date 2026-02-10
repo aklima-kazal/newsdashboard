@@ -1,20 +1,28 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-
-const authRoutes = require('./routes/auth');
-const newsRoutes = require('./routes/news');
-const categoriesRoutes = require('./routes/categories');
+const express = require("express");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
+const store = require("./store");
 
 const app = express();
-app.use(cors());
-app.use(bodyParser.json());
+const JWT_SECRET = "dev-secret"; //
 
-app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
+app.use(cors({ origin: "http://localhost:3000", credentials: true })); //
+app.use(express.json());
+app.use(cookieParser());
 
-app.use('/api/auth', authRoutes);
-app.use('/api/news', newsRoutes);
-app.use('/api/categories', categoriesRoutes);
+app.post("/api/login", (req, res) => {
+  const { email, password } = req.body;
+  const user = store.users.find(
+    (u) => u.email === email && u.password === password,
+  );
 
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  if (user) {
+    const token = jwt.sign({ sub: user.id }, JWT_SECRET, { expiresIn: "1d" });
+    store.sessions[token] = user.id; // CRITICAL: Save session
+    return res.json({ success: true, token });
+  }
+  return res.status(401).json({ error: "Invalid credentials" }); //
+});
+
+app.listen(4000, () => console.log("Backend on port 4000"));
