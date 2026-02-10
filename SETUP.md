@@ -1,4 +1,4 @@
-# News Dashboard - Full Stack Setup
+<!-- # News Dashboard - Full Stack Setup
 
 This project now has both frontend (Next.js) and backend (Express.js) integrated.
 
@@ -80,4 +80,4 @@ All endpoints are prefixed with `/api`:
 
 **Categories**
 - `GET /categories` - List categories
-- `POST /categories` - Create category
+- `POST /categories` - Create category -->
